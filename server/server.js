@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 let app = express();
 
 // DATA GOES HERE
-
+let calculation = [];
 // app.use expressions
 app.use(express.static('./server/public'));
 app.use(bodyParser.json());
@@ -16,6 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // POSTs
 
+app.post('/calculate', (req,res) => {
+    console.log('in post /calculate');
+    let mathCalc = req.body;
+    calculation.push(mathCalc);
+    console.log('calculation is ', calculation);
+    res.sendStatus(200);
+})
 // listen for requests
 const port = 5000;
 app.listen(port, () => {
