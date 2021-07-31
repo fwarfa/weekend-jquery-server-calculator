@@ -3,25 +3,32 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // declare and initialize app
-let app = express();
+const app = express();
 
 // DATA GOES HERE
-let calculation = [];
+const calculation = [1,2,3];
+
+const calcHistory = {
+
+};
 // app.use expressions
 app.use(express.static('./server/public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 // GETs
-
+app.get('/calculate', (req,res) => {
+    console.log('starter data in array');
+    res.send(calculation);
+})
 // POSTs
 
 app.post('/calculate', (req,res) => {
     console.log('in post /calculate');
     let mathCalc = req.body;
     calculation.push(mathCalc);
-    console.log('calculation is ', calculation);
-    res.sendStatus(200);
+    // console.log('calculation is ', calculation);
+    res.send(calculation);
 })
 // listen for requests
 const port = 5000;

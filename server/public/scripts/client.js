@@ -1,9 +1,28 @@
-$(document).on(onReady);
+$(document).ready(onReady);
 
 function onReady() {
     console.log('on Ready');
+    getMathData();
     $('#submitBtn').on('click', sendMath)
 }
+
+function getMathData() {
+    console.log('inside getMathData');
+    
+    // FUNCTION THAT WILL INCLUDE GET AJAX
+        $.ajax({
+            method: 'GET',
+            url: '/calculate'
+        }).then((response) => {
+        console.log('GET /calculate response', response);
+        
+        let answer = $('#answer');
+        let calcHistory = $('#mathHistory');
+
+
+
+        })
+ }
 
 function sendMath() {
     console.log('Inside sendMath');
@@ -13,7 +32,6 @@ function sendMath() {
         inputOne: $('#numOne').val(),
         inputTwo: $('#numTwo').val()
     } 
-
     $.ajax({
         method: 'POST',
         url: '/calculate',
@@ -21,11 +39,5 @@ function sendMath() {
     }).then((response) => {
         // getCalc();
         console.log('response', response);
-        
     });
 }
-
-// function sendMath() {
-//     // FUNCTION THAT WILL INCLUDE GET AJAX
-        
-//  }
