@@ -29,9 +29,10 @@ function sendMath() {
 
 // FUNCTION THAT WILL INCLUDE POST AJAX
     let mathCalc = {
-        inputOne: $('#numOne').val(),
-        inputTwo: $('#numTwo').val()
-    } 
+        inputOne: $('#inputOne').val(),
+        inputTwo: $('#inputTwo').val(),
+    };
+    console.log('mathCalc is ', mathCalc);
     $.ajax({
         method: 'POST',
         url: '/calculate',

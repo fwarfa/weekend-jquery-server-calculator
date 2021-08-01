@@ -26,8 +26,8 @@ app.get('/calculate', (req,res) => {
 app.post('/calculate', (req,res) => {
     console.log('in post /calculate');
     let mathCalc = req.body;
+    console.log('req.body is ', mathCalc);
     calculation.push(mathCalc);
-    // console.log('calculation is ', calculation);
     res.send(calculation);
 })
 // listen for requests
