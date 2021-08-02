@@ -3,8 +3,6 @@ let clickedOperation;
 
 function onReady() {
     console.log('on Ready');
-    // sendMath();
-    // getMathData();
     $('#submitBtn').on('click', sendMath);
     $('.operationBtn').on('click', getClickedOperation);
     $('#clearBtn').on('click', clearInputs);
@@ -31,18 +29,6 @@ function getClickedOperation() {
     }
 }
 
-function getMathData() {
-    console.log('inside getMathData');
-    
-    // FUNCTION THAT WILL INCLUDE GET AJAX
-        $.ajax({
-            method: 'GET',
-            url: '/calculate'
-        }).then((response) => {
-        console.log('GET /calculate response', response);
-        })
- }
-
 function sendMath() {
     console.log('Inside sendMath');
 
@@ -52,30 +38,57 @@ function sendMath() {
         inputTwo: $('#inputTwo').val(),
         data: operationVariable
     };
-    console.log('operationVariable is ', operationVariable);
-    
     $.ajax({
         method: 'POST',
         url: '/calculate',
         data: mathCalc
     }).then((response) => {
-        // getCalc();
         console.log('response is ', response);
-        
+        getMathData();
+        getAnswer();
+    });
+}
+
+function getMathData() {
+    console.log('inside getMathData');
+    
+    // FUNCTION THAT WILL INCLUDE GET AJAX
+        $.ajax({
+            method: 'GET',
+            url: '/calculate'
+        }).then((response) => {
+        console.log('GET /calculate response', response);
+
         let calcList = $('#mathHistory');
         let answer = $('#answer');
-
         calcList.empty();
         answer.empty();
-        answer.append(response);
 
-
+         
         for (let calc of response) { // response is the quotes array from server.js
+            answer.empty();
             calcList.append(`
                 <li>
-                    ${mathCalc.inputOne} ${mathCalc.data} ${mathCalc.inputTwo} = ${response}
+                    ${calc.inputOne} ${calc.data} ${calc.inputTwo} = ${calc.answer}
                 </li>
             `);
+            answer.append(calc.answer);
         }
-    });
+    })
+ }
+
+ function getAnswer() {
+    console.log('inside getAnswer');
+    
+    // FUNCTION THAT WILL INCLUDE GET AJAX
+        $.ajax({
+            method: 'GET',
+            url: '/answer'
+        }).then((response) => {
+            console.log('GET /answer response', response);
+
+            let answer = $('#answer');
+            answer.empty();
+            answer.append(response);
+        });
 }
