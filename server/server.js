@@ -6,9 +6,12 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // DATA GOES HERE
+// array that will be sent back as response
 const calculation = [];
-const answersArray = [];
 
+//function that will take the data sent over (req.body)
+// calculate for each operation situation
+//returns answer as result object
 function doMath(object) {
     let result = 0;
     if (object.data === '+') {
@@ -31,51 +34,28 @@ app.use(express.static('./server/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// GETs
+// GET endpoint
+//sends back calculations array to client
 app.get('/calculate', (req,res) => {
-    console.log('sending back data');
+    console.log('sending back data'); // test to see if endpoint was hit
     res.send(calculation);
 })
 
-// app.get('/answer', (req,res) => {
-//     console.log('sending back answer array');
-//     console.log('answerArray, ', answersArray[answersArray.length-1]);
-    
-//     res.send(answersArray[0]);
-// })
 // POSTs
-
+// pushes data to doMath function to calculate
+// adds calculated answer on to req.body (mathCalc)
+// pushes mathCalc into array
+// sends status OK
 app.post('/calculate', (req,res) => {
-    console.log('in post /calculate');
-    let mathCalc = req.body; // request info sent over
+    console.log('in post /calculate'); // testing to see if endpoint was hit
+    let mathCalc = req.body; // request data sent over
     let answer = doMath(mathCalc);
-    mathCalc.answer = answer;
-    console.log('req.body is ', mathCalc);
-    calculation.push(mathCalc);
-    // answersArray.push(answer);
-    // console.log('answersArray, ', answersArray);
-    // console.log('answer ', answer);
-    
-    
-    res.send(200);
-    // let result = 0;
-    // if (mathCalc.data === '+') {
-    //     result = Number(mathCalc.inputOne) + Number(mathCalc.inputTwo);
-    // }
-    // else if (mathCalc.data === '-') {
-    //     result = Number(mathCalc.inputOne) - Number(mathCalc.inputTwo);
-    // }
-    // else if (mathCalc.data === '*') {
-    //     result = Number(mathCalc.inputOne) * Number(mathCalc.inputTwo);
-    // }
-    // else if (mathCalc.data === '/') {
-    //     result = Number(mathCalc.inputOne) / Number(mathCalc.inputTwo);
-    // }
-
-    // calculation.push(mathCalc);
-    // doMath(calculation);
-    // res.send(200);
+    mathCalc.answer = answer; // adds new key
+    console.log('req.body is ', mathCalc); // testing
+    calculation.push(mathCalc); // pushes object to array
+    res.send(200); // sends OK to client
 })
+
 // listen for requests
 const port = 5000;
 app.listen(port, () => {
